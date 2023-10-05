@@ -8,15 +8,27 @@ services:
       dockerfile: ./docker/local/Dockerfile
     volumes:
       - /app/node_modules
-      - .:/app
-    ports:
-      - "1997:1997"
+      - ./backend:/app
+    # ports:
+    #   - "1997:1997"
     depends_on:
       - mongodb
     environment:
       NODE_ENV: development
       MONGO_URI: mongodb://${MONGO_ROOT_USERNAME}:${MONGO_ROOT_PASSWORD}@mongodb
       FORCE_COLOR: 1
+    networks:
+      - next-invoice-network
+
+  client:
+    build:
+      context: ./frontend
+      dockerfile: ./docker/local/Dockerfile
+    restart: on-failure
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     networks:
       - next-invoice-network
 
@@ -56,9 +68,26 @@ services:
     networks:
       - next-invoice-network
 
+  nginx:
+    build:
+      context: ./docker/local/nginx
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      - api
+    volumes:
+      - static_volume:/app/staticfiles
+      - pdf_volume:/app/docs
+    networks:
+      - next-invoice-network
+
 networks:
   next-invoice-network:
     driver: bridge
 
 volumes:
   mongodb-data:
+  static_volume:
+  pdf_volume:
