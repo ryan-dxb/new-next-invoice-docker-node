@@ -22,6 +22,8 @@ RUN addgroup --system invoice \
 
 # Install dependencies
 COPY package*.json ./
+COPY tsconfig*.json ./
+
 
 RUN npm install
 
@@ -37,6 +39,7 @@ RUN chown -R invoice:invoice ${APP_DIR}
 #  Switch to the invoice user
 USER invoice
 
+EXPOSE 1997
 
 # Run the application 
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev:ts"]

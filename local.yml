@@ -9,6 +9,7 @@ services:
     volumes:
       - /app/node_modules
       - ./backend:/app
+      - ./backend/.env:/app/.env
     # ports:
     #   - "1997:1997"
     depends_on:
@@ -77,6 +78,7 @@ services:
     restart: always
     depends_on:
       - api
+      - client
     volumes:
       - static_volume:/app/staticfiles
       - pdf_volume:/app/docs

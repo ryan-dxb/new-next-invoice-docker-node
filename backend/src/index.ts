@@ -1,4 +1,5 @@
 import app from "./app";
+import connectDB from "./config/db/connectDB";
 import logger from "./config/logger.config";
 // import connectDB from "./config/db/connectDB";
 
@@ -6,7 +7,10 @@ import logger from "./config/logger.config";
 
 const PORT = process.env.PORT || 1997;
 
-// connectDB();
+// Connect to MongoDB and then start the express server
+
+connectDB();
+
 let server = app.listen(PORT, () => {
   logger.info(`Server is running on port ${PORT}`);
 });
