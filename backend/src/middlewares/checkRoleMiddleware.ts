@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import { Roles } from "@/models/userModel";
+import sendError from "@/utils/sendError";
+import createHttpError from "http-errors";
 
 type RolesArray = Array<Roles>;
 
@@ -8,8 +10,7 @@ const checkRole = (...role: RolesArray) =>
     try {
       // Check if user is logged in and has the role
       if (!req.user || !req.user.roles) {
-        res.status(401);
-        throw new Error("Not authorized");
+        return sendError(createHttpError.Unauthorized("Not authorized"));
       }
 
       const requiredRolesArray = [...role];
@@ -22,14 +23,12 @@ const checkRole = (...role: RolesArray) =>
         .find((role) => role === true);
 
       if (!hasRequiredRole) {
-        res.status(401);
-        throw new Error("Not authorized");
+        return sendError(createHttpError.Unauthorized("Not authorized"));
       }
 
       next();
     } catch (error) {
-      console.log(error);
-      throw new Error("Not authorized");
+      next(error);
     }
   });
 

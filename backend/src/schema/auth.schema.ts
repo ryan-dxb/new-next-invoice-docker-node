@@ -1,3 +1,4 @@
+import { isValidObjectId } from "mongoose";
 import * as zod from "zod";
 
 export const registerUserSchema = zod.object({
@@ -34,5 +35,32 @@ export const loginUserSchema = zod.object({
     email: zod.string().email("Please provide a valid email address"),
 
     password: zod.string().trim().min(1, "Password cannot be empty"),
+  }),
+});
+
+export const verifyEmailSchema = zod.object({
+  body: zod.object({
+    userId: zod
+      .string()
+      .min(1, "User Id cannot be empty")
+      .refine(
+        (data) => {
+          if (isValidObjectId(data)) {
+            return true;
+          }
+          return false;
+        },
+        {
+          message: "Invalid User Id",
+          path: ["userId"],
+        }
+      ),
+    token: zod.string().min(1, "Token cannot be empty"),
+  }),
+});
+
+export const resendVerifyEmailSchema = zod.object({
+  body: zod.object({
+    email: zod.string().email("Please provide a valid email address"),
   }),
 });

@@ -16,3 +16,16 @@ export interface LoginUser extends Request {
     password: string;
   };
 }
+
+export interface VerifyEmailRequest extends Request {
+  body: {
+    userId: string;
+    token: string;
+  };
+}
+
+export interface ResendVerifyEmail extends Request {
+  body: {
+    email: string;
+  };
+}

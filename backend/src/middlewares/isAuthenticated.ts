@@ -15,7 +15,7 @@ const isAuthenticated: RequestHandler = asyncHandler(
       token = authHeader.split(" ")[1];
 
       if (!token || token === "") {
-        sendError(createHttpError.Unauthorized("Invalid token"));
+        return sendError(createHttpError.Unauthorized("Invalid token"));
       }
     }
 
@@ -25,7 +25,7 @@ const isAuthenticated: RequestHandler = asyncHandler(
       console.log("decoded", decoded);
 
       if (!decoded) {
-        sendError(createHttpError.Unauthorized("Invalid token"));
+        return sendError(createHttpError.Unauthorized("Invalid token"));
       }
 
       const user = await UserModel.findById(decoded?.id, {
@@ -34,7 +34,7 @@ const isAuthenticated: RequestHandler = asyncHandler(
       });
 
       if (!user) {
-        sendError(createHttpError.Unauthorized("Invalid token"));
+        return sendError(createHttpError.Unauthorized("Invalid token"));
       }
 
       req.user = user;

@@ -14,7 +14,7 @@ const loginController: RequestHandler = asyncHandler(
       const { email, password } = req.body;
 
       if (!email || !password) {
-        sendError(
+        return sendError(
           createHttpError.BadRequest("Please provide all required fields")
         );
       }
@@ -22,7 +22,7 @@ const loginController: RequestHandler = asyncHandler(
       const user = await checkUserCredentials({ email, password });
 
       if (!user) {
-        sendError(createHttpError.Unauthorized("Invalid credentials"));
+        return sendError(createHttpError.Unauthorized("Invalid credentials"));
       }
 
       const { newAccessToken, newRefreshToken } = await generateTokens({

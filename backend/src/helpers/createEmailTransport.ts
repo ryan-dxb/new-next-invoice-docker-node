@@ -1,4 +1,5 @@
-import nodemailer from "nodemailer";
+import * as nodemailer from "nodemailer";
+
 import {
   NODE_ENV,
   SMTP_HOST,

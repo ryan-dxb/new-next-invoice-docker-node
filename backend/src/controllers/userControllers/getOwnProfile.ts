@@ -4,7 +4,7 @@ import { findUserById } from "@/services/auth.service";
 import sendError from "@/utils/sendError";
 import createHttpError from "http-errors";
 
-const getUserProfileController: RequestHandler = asyncHandler(
+const getOwnProfileController: RequestHandler = asyncHandler(
   async (req: Request, res: Response, next) => {
     try {
       const user = req.user;
@@ -27,4 +27,4 @@ const getUserProfileController: RequestHandler = asyncHandler(
   }
 );
 
-export default getUserProfileController;
+export default getOwnProfileController;

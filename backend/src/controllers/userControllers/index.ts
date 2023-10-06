@@ -1,3 +1,3 @@
-import getUserProfileController from "./getUserProfile";
+import getOwnProfileController from "./getOwnProfile";
 
-export { getUserProfileController as getUserProfile };
+export { getOwnProfileController as getOwnProfile };

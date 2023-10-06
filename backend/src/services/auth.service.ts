@@ -35,7 +35,13 @@ type Credentials = {
 
 //////////////// Find user by email //////////////
 export const findUserByEmail = async (email: string) => {
-  const user = await UserModel.findOne({ email: email.toLowerCase() });
+  const user = await UserModel.findOne(
+    { email: email.toLowerCase() },
+    {
+      password: 0,
+      refreshTokens: 0,
+    }
+  );
 
   return user;
 };
@@ -45,10 +51,16 @@ export const findUserByRefreshToken = async (
   id: string,
   refreshToken: string
 ) => {
-  const user = await UserModel.findOne({
-    _id: id,
-    refreshTokens: { $in: [refreshToken] },
-  });
+  const user = await UserModel.findOne(
+    {
+      _id: id,
+      refreshTokens: { $in: [refreshToken] },
+    },
+    {
+      password: 0,
+      refreshTokens: 0,
+    }
+  );
 
   return user;
 };

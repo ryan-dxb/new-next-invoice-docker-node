@@ -4,6 +4,9 @@ import { RegisterUser } from "@/@types/auth";
 import { createNewUser, findUserByEmail } from "@/services/auth.service";
 import sendError from "@/utils/sendError";
 import createHttpError from "http-errors";
+import generateVerificationToken from "@/helpers/generateVerificationToken";
+import EmailVerificationTokenModel from "@/models/emailVerificationTokenModel";
+import { sendVerificationEmail } from "@/utils/sendEmail";
 
 const registerController: RequestHandler = asyncHandler(
   async (req: RegisterUser, res: Response, next) => {
@@ -29,6 +32,18 @@ const registerController: RequestHandler = asyncHandler(
       }
 
       const newUser = await createNewUser(req.body);
+
+      // Verification Email
+      const token = await generateVerificationToken();
+
+      // Save token to database
+      await EmailVerificationTokenModel.create({
+        owner: newUser._id,
+        token,
+      });
+
+      // Send verification email
+      await sendVerificationEmail(newUser, token);
 
       // Send Response
       res.status(201).json({

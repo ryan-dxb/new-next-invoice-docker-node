@@ -1,4 +1,4 @@
-import { getUserProfile } from "@/controllers/userControllers";
+import { getOwnProfile } from "@/controllers/userControllers";
 import isAuthenticated from "@/middlewares/isAuthenticated";
 import schemaValidator from "@/middlewares/schemaValidator";
 import { loginUserSchema, registerUserSchema } from "@/schema/auth.schema";
@@ -7,7 +7,7 @@ import express from "express";
 
 const router = express.Router();
 
-router.route("/profile").get(isAuthenticated, getUserProfile);
+router.route("/profile").get(isAuthenticated, getOwnProfile);
 // router.route("/login").post(schemaValidator(loginUserSchema), login);
 // router.route("/refresh-token").post(refreshToken);
 // router.route("/logout").post(isAuthenticated, logout);
