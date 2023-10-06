@@ -9,11 +9,9 @@ import cors from "cors";
 import createHttpError from "http-errors";
 import corsOptions from "./config/cors/corsOptions";
 import errorHandler from "./middlewares/errorHandler";
-// import routes from "./routes";
+import routes from "./routes";
 
 dotenv.config();
-
-console.log(process.env);
 
 const app = express();
 
@@ -31,10 +29,7 @@ app.use(cookieParser());
 app.use(compression());
 
 // Routes
-// app.use("/api/v1", routes);
-app.get("/api/v1/hello", (req, res) => {
-  res.send("Hello World! --- NEw");
-});
+app.use("/api/v1", routes);
 
 // Not Found Handler
 app.use(async (req, res, next) => {

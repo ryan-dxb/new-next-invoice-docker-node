@@ -7,14 +7,14 @@ const checkRole = (...role: RolesArray) =>
   asyncHandler(async (req, res, next) => {
     try {
       // Check if user is logged in and has the role
-      if (!req.user || !req.roles) {
+      if (!req.user || !req.user.roles) {
         res.status(401);
         throw new Error("Not authorized");
       }
 
       const requiredRolesArray = [...role];
 
-      const userRoles = req.roles as RolesArray;
+      const userRoles = req.user.roles as RolesArray;
 
       // Check if user has the required role
       const hasRequiredRole = userRoles
