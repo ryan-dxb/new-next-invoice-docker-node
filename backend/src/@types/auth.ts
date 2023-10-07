@@ -29,3 +29,24 @@ export interface ResendVerifyEmail extends Request {
     email: string;
   };
 }
+
+export interface ForgotPassword extends Request {
+  body: {
+    email: string;
+  };
+}
+
+export interface ResetPassword extends Request {
+  body: {
+    userId: string;
+    token: string;
+    newPassword: string;
+  };
+}
+
+export interface changePassword extends Request {
+  body: {
+    oldPassword: string;
+    newPassword: string;
+  };
+}

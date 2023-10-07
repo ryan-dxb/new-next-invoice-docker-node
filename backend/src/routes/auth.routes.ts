@@ -4,12 +4,20 @@ import {
   verifyEmail,
   refreshToken,
   resendVerifyEmail,
+  changePassword,
+  forgotPassword,
+  resetPassword,
+  logout,
 } from "@/controllers/authControllers";
+import isAuthenticated from "@/middlewares/isAuthenticated";
 import schemaValidator from "@/middlewares/schemaValidator";
 import {
+  changePasswordSchema,
+  forgotPasswordSchema,
   loginUserSchema,
   registerUserSchema,
   resendVerifyEmailSchema,
+  resetPasswordSchema,
   verifyEmailSchema,
 } from "@/schema/auth.schema";
 // import isAuthenticated from "@/middlewares/isAuthenticated";
@@ -29,10 +37,17 @@ router
 
 router.route("/refresh-token").post(refreshToken);
 
-// router.route("/refresh-token").post(refreshToken);
-// router.route("/logout").post(isAuthenticated, logout);
-// router.route("/me").get(isAuthenticated, (req, res) => {
-//   res.json({ message: "get me new" });
-// });
+router
+  .route("/change-password")
+  .post(schemaValidator(changePasswordSchema), isAuthenticated, changePassword);
+
+router
+  .route("/forgot-password")
+  .post(schemaValidator(forgotPasswordSchema), forgotPassword);
+router
+  .route("/reset-password")
+  .post(schemaValidator(resetPasswordSchema), resetPassword);
+
+router.route("/logout").post(isAuthenticated, logout);
 
 export default router;

@@ -51,9 +51,6 @@ EmailVerificationTokenSchema.methods.compareToken = async function (
 ) {
   let _token = this as EmailVerificationTokenDocument;
 
-  console.log("token", token);
-  console.log("_token.token", _token.token);
-
   return bcrypt.compare(token, _token.token).catch((e) => false);
 };
 

@@ -36,3 +36,17 @@ export const sendVerificationEmail = async (user: User, token: string) => {
 
   await sendEmail(mailOptions);
 };
+
+export const sendResetPasswordEmail = async (user: User, token: string) => {
+  const { id, email } = user;
+
+  const mailOptions = {
+    from: EMAIL_FROM,
+    to: email,
+    subject: "Reset your password",
+    html: `<h1>Click the link below to reset your password</h1>
+    <a href="${CLIENT_URL}/reset-password/${id}/${token}">Reset Password</a>`,
+  };
+
+  await sendEmail(mailOptions);
+};

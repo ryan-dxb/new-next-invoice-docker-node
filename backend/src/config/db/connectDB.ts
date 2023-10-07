@@ -8,8 +8,6 @@ dotenv.config();
 const URI: string = MONGO_URI as string;
 const DB_NAME: string = DB as string;
 
-console.log(URI);
-
 const connectDB = async () => {
   try {
     const connectionParams = {

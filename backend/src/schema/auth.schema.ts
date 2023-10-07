@@ -64,3 +64,64 @@ export const resendVerifyEmailSchema = zod.object({
     email: zod.string().email("Please provide a valid email address"),
   }),
 });
+
+export const forgotPasswordSchema = zod.object({
+  body: zod.object({
+    email: zod.string().email("Please provide a valid email address"),
+  }),
+});
+
+export const resetPasswordSchema = zod.object({
+  body: zod.object({
+    userId: zod
+      .string()
+      .min(1, "User Id cannot be empty")
+      .refine(
+        (data) => {
+          if (isValidObjectId(data)) {
+            return true;
+          }
+          return false;
+        },
+        {
+          message: "Invalid User Id",
+          path: ["userId"],
+        }
+      ),
+    token: zod.string().min(1, "Token cannot be empty"),
+    newPassword: zod
+      .string()
+      .trim()
+      .min(6, "Please provide a password with at least 6 characters")
+      .max(20, "Please provide a password with at most 20 characters"),
+  }),
+});
+
+export const changePasswordSchema = zod.object({
+  headers: zod.object({
+    authorization: zod
+      .string()
+      .min(1, "Token cannot be empty")
+      .refine(
+        (data) => {
+          const [type, token] = data.split(" ");
+          if (type === "Bearer" && token) {
+            return true;
+          }
+          return false;
+        },
+        {
+          message: "Invalid token",
+          path: ["authorization"],
+        }
+      ),
+  }),
+  body: zod.object({
+    oldPassword: zod.string().trim().min(1, "Password cannot be empty"),
+    newPassword: zod
+      .string()
+      .trim()
+      .min(6, "Please provide a password with at least 6 characters")
+      .max(20, "Please provide a password with at most 20 characters"),
+  }),
+});

@@ -35,13 +35,7 @@ type Credentials = {
 
 //////////////// Find user by email //////////////
 export const findUserByEmail = async (email: string) => {
-  const user = await UserModel.findOne(
-    { email: email.toLowerCase() },
-    {
-      password: 0,
-      refreshTokens: 0,
-    }
-  );
+  const user = await UserModel.findOne({ email: email.toLowerCase() });
 
   return user;
 };
@@ -51,26 +45,17 @@ export const findUserByRefreshToken = async (
   id: string,
   refreshToken: string
 ) => {
-  const user = await UserModel.findOne(
-    {
-      _id: id,
-      refreshTokens: { $in: [refreshToken] },
-    },
-    {
-      password: 0,
-      refreshTokens: 0,
-    }
-  );
+  const user = await UserModel.findOne({
+    _id: id,
+    refreshTokens: { $in: [refreshToken] },
+  });
 
   return user;
 };
 
 //////////////// Find User by Id //////////////
 export const findUserById = async (id: string) => {
-  const user = await UserModel.findById(id, {
-    password: 0,
-    refreshTokens: 0,
-  });
+  const user = await UserModel.findById(id);
 
   if (!user) {
     sendError(createHttpError.Unauthorized("User not found"));
@@ -84,14 +69,14 @@ export const checkUserCredentials = async ({
   email,
   password,
 }: Credentials) => {
-  const user = await findUserByEmail(email);
+  const user: UserDocument = await findUserByEmail(email);
 
   if (!user) {
-    sendError(createHttpError.BadRequest("Invalid credentials"));
+    sendError(createHttpError.NotFound("User not found"));
   }
 
   // Check if password matches
-  const comparePassword = await user.comparePassword(password, user.password);
+  const comparePassword = await user.comparePassword(password);
 
   console.log("comparePassword", comparePassword);
 

@@ -94,13 +94,20 @@ UserSchema.methods.comparePassword = async function (
   candidatePassword: string
 ) {
   const user = this as UserDocument;
-  return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
+
+  console.log("user", user);
+
+  console.log("candidatePassword", candidatePassword);
+  console.log("user.password", user.password);
+  return bcrypt.compare(candidatePassword, user.password).catch((e) => {
+    console.log("e", e);
+    return false;
+  });
 };
 
 // Remove password / refresh token / version / from user object and add id field
 UserSchema.methods.toJSON = function () {
   let user = this.toObject();
-  delete user.password;
   delete user.__v;
   user.id = user._id;
   delete user._id;
