@@ -25,8 +25,8 @@ user:
 volume:
 	docker volume inspect mern-invoice_mongodb-data
 
-remove-unused-images:
+remove-images:
 	docker image prune -f --all
 
-remove-unused-volumes:
+remove-volumes:
 	docker volume prune -f 

@@ -12,7 +12,7 @@ import {
 } from "../features/auth/authSlice";
 // import { logout } from "../auth/authSlice";
 
-const baseUrl = `http://localhost:8000/api/v1/`;
+const baseUrl = `/api/v1`;
 
 // Create a new mutex
 const mutex = new Mutex();
