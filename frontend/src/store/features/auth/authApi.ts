@@ -5,6 +5,7 @@ import { logout, setCredentials } from "./authSlice";
 import customFetchBase from "../../api/customBaseQuery";
 import { IUser } from "../../types";
 import { useAppDispatch } from "@/store/hooks";
+import { createSession } from "@/lib/session";
 
 export interface AuthResponse {
   message: string;
@@ -45,9 +46,19 @@ export const authApi = createApi({
         try {
           const { data } = await queryFulfilled;
 
-          console.log("onQueryStarted data", data.data.user);
+          console.log("onQueryStarted data", data);
           if (data.data.user) {
             dispatch(setCredentials(data));
+
+            const sessionObj = {
+              accessToken: data.data.accessToken,
+              user: {
+                id: data.data.user.id,
+                email: data.data.user.email,
+              },
+            };
+
+            await createSession(sessionObj);
           }
         } catch (err) {
           console.log("onQueryStarted error", err);
@@ -201,7 +212,7 @@ export const authApi = createApi({
     getUser: builder.query<IUser, any>({
       // Use accessToken from authSlice
       query: (accessToken) => ({
-        url: "auth/me",
+        url: "user/profile",
         method: "GET",
         credentials: "include",
         headers: {
@@ -213,11 +224,7 @@ export const authApi = createApi({
         console.log("onQueryStarted", args, queryFulfilled);
 
         try {
-          const data = await queryFulfilled;
-
-          if (data.data.success) {
-            dispatch(logout());
-          }
+          const { data } = await queryFulfilled;
 
           console.log("onQueryStarted data", data);
         } catch (err) {
@@ -225,8 +232,9 @@ export const authApi = createApi({
         }
       },
 
-      transformResponse: (response: any) => {
+      transformResponse: async (response: any) => {
         console.log("transformResponse", response);
+
         return response;
       },
     }),

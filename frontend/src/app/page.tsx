@@ -1,16 +1,17 @@
 import Image from "next/image";
-import signIn from "./actions/signIn";
-
-export async function getdata() {
-  const login = await signIn({
-    email: "test@test.com",
-    password: "123456",
-  });
-}
+import Link from "next/link";
+import { cookies } from "next/headers";
+import { getServerSession } from "@/lib/getServerSession";
 
 export default async function Home() {
-  const data = await fetch("/api/v1");
+  const session = await getServerSession();
+  console.log("session :>> ", session);
 
-  console.log(data.json());
-  return <div></div>;
+  return (
+    <main className="flex items-center justify-center h-screen bg-primary/10">
+      <div className="max-w-xl px-10 mx-auto sm:px-0">
+        <Link href="/dashboard">Dashboard</Link>
+      </div>
+    </main>
+  );
 }
