@@ -19,13 +19,13 @@ const SidebarMenuItem: NextPage<SidebarMenuItemProps> = ({
   return (
     <li
       className={cn(
-        "flex flex-row  w-full h-14 px-4  space-x-2 rounded-md cursor-pointer",
+        "flex flex-row  w-full h-14   space-x-2 rounded-md cursor-pointer",
         active ? "bg-primary/10" : "hover:bg-primary/10"
       )}
     >
       <Link
         href={href}
-        className="flex items-center justify-center h-full py-auto"
+        className="flex items-center justify-center w-full h-full px-4 py-auto"
       >
         <div className="flex flex-row w-full space-x-2">
           {icon}
