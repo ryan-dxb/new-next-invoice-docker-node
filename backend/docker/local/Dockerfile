@@ -6,6 +6,28 @@ LABEL name="next-invoice"
 LABEL version="1.0.0"
 LABEL description="Next Invoice built with Next.js, TypeScript, Tailwind CSS, Express and MongoDB."
 
+RUN apk add --no-cache \
+    chromium \
+    nss \
+    freetype \
+    harfbuzz \
+    ca-certificates \
+    ttf-freefont \
+    nodejs \
+    yarn
+
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV CHROME_BIN="/usr/bin/chromium-browser" \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD="true"
+RUN set -x \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache \
+    udev \
+    ttf-freefont \
+    chromium \
+    && npm install -g puppeteer
+
 
 ENV NODE_ENV=development
 

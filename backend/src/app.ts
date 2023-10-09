@@ -8,11 +8,13 @@ import compression from "compression";
 import cors from "cors";
 import createHttpError from "http-errors";
 import corsOptions from "./config/cors/corsOptions";
+import createPDF from "./utils/puppeteer";
 import errorHandler from "./middlewares/errorHandler";
 import routes from "./routes";
 
 dotenv.config();
 
+createPDF();
 const app = express();
 
 // Middlewares
