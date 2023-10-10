@@ -31,7 +31,7 @@ export const sendVerificationEmail = async (user: User, token: string) => {
     to: email,
     subject: "Verify your account",
     html: `<h1>Click the link below to verify your email</h1>
-    <a href="${CLIENT_URL}/verify-email/${id}/${token}">Verify Email</a>`,
+    <a href="${CLIENT_URL}/api/v1/auth/verify-email/${id}/${token}">Verify Email</a>`,
   };
 
   await sendEmail(mailOptions);

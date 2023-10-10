@@ -1,6 +1,5 @@
 import asyncHandler from "express-async-handler";
-import { RequestHandler, Response, NextFunction } from "express";
-import { VerifyEmailRequest } from "@/@types/auth";
+import { RequestHandler, Response, NextFunction, Request } from "express";
 import { findUserById } from "@/services/auth.service";
 import sendError from "@/utils/sendError";
 import createHttpError from "http-errors";
@@ -8,13 +7,13 @@ import { UserDocument } from "@/models/userModel";
 import EmailVerificationTokenModel from "@/models/emailVerificationTokenModel";
 
 const verifyEmailController: RequestHandler = asyncHandler(
-  async (req: VerifyEmailRequest, res: Response, next: NextFunction) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { userId, token } = req.body;
+      const { id, token } = req.params;
 
       // Check if user with provided id exists
 
-      const user: UserDocument = await findUserById(userId);
+      const user: UserDocument = await findUserById(id);
 
       if (!user) {
         return sendError(createHttpError.BadRequest("User not found"));
@@ -27,7 +26,7 @@ const verifyEmailController: RequestHandler = asyncHandler(
 
       // Check if token is valid
       const tokenExists = await EmailVerificationTokenModel.findOne({
-        owner: userId,
+        owner: id,
       });
 
       if (!tokenExists) {
@@ -55,11 +54,9 @@ const verifyEmailController: RequestHandler = asyncHandler(
       await user.save();
 
       // Delete EmailVerificationToken
-      await EmailVerificationTokenModel.deleteOne({ owner: userId });
+      await EmailVerificationTokenModel.deleteOne({ owner: id });
 
-      res.status(200).json({
-        message: "Email verified successfully",
-      });
+      res.redirect(`/auth/email-verified?success=true`);
     } catch (error) {
       next(error);
     }

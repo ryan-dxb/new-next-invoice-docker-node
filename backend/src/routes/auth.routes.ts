@@ -28,8 +28,8 @@ const router = express.Router();
 router.route("/register").post(schemaValidator(registerUserSchema), register);
 router.route("/login").post(schemaValidator(loginUserSchema), login);
 router
-  .route("/verify-email")
-  .post(schemaValidator(verifyEmailSchema), verifyEmail);
+  .route("/verify-email/:id/:token")
+  .get(schemaValidator(verifyEmailSchema), verifyEmail);
 
 router
   .route("/resend-verify-email")

@@ -318,8 +318,11 @@ export function DataTableDemo() {
   });
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       <div className="flex items-center py-4">
+        <h4 className="mr-4 text-2xl font-semibold text-gray-800">
+          Payment History
+        </h4>
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}

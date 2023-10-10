@@ -13,8 +13,10 @@ const AdminPanelPage: NextPage<AdminPanelPageProps> = () => {
         subTitle="Manage all users and their roles"
       />
 
-      <div className="w-full mx-auto overflow-y-scroll max-w-7xl">
-        <DataTableDemo />
+      <div className="w-11/12 mx-auto overflow-x-auto overflow-y-scroll max-w-7xl scrollbar-none">
+        <div className="w-full p-4">
+          <DataTableDemo />
+        </div>
       </div>
     </div>
   );

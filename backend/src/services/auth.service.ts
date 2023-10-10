@@ -1,4 +1,4 @@
-import UserModel, { UserDocument } from "@/models/userModel";
+import UserModel, { Roles, UserDocument } from "@/models/userModel";
 import sendError from "@/utils/sendError";
 import { DEFAULT_AVATAR } from "@/utils/variables";
 import createHttpError from "http-errors";
@@ -22,6 +22,8 @@ export const createNewUser = async (userData: UserData) => {
     password,
     firstName,
     lastName,
+    // roles: [Roles.ADMIN, Roles.USER],
+    isAccountActive: true,
     avatar: avatar ? avatar : DEFAULT_AVATAR,
   });
 

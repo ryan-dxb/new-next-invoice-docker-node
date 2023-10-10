@@ -39,8 +39,8 @@ export const loginUserSchema = zod.object({
 });
 
 export const verifyEmailSchema = zod.object({
-  body: zod.object({
-    userId: zod
+  params: zod.object({
+    id: zod
       .string()
       .min(1, "User Id cannot be empty")
       .refine(
@@ -52,9 +52,10 @@ export const verifyEmailSchema = zod.object({
         },
         {
           message: "Invalid User Id",
-          path: ["userId"],
+          path: ["id"],
         }
       ),
+
     token: zod.string().min(1, "Token cannot be empty"),
   }),
 });

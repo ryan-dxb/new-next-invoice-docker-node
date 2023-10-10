@@ -11,6 +11,7 @@ import {
   setCredentials,
 } from "../features/auth/authSlice";
 // import { logout } from "../auth/authSlice";
+import { RootState, store } from "../store";
 
 const baseUrl = `/api/v1`;
 
@@ -23,6 +24,14 @@ const baseQuery = fetchBaseQuery({
   headers: {
     "Content-Type": "application/json",
     "Access-Control-Allow-Credentials": "true",
+  },
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.token;
+
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
   },
 });
 
