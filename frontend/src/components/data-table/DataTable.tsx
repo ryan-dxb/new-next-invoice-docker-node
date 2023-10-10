@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -36,6 +36,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Switch } from "../ui/switch";
+import AddCustomerModal from "../modals/AddCustomerModal";
 
 const data: Payment[] = [
   {
@@ -357,6 +358,13 @@ export function DataTableDemo() {
               })}
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <AddCustomerModal>
+          <Button variant="outline" className="ml-2">
+            <Plus className="w-4 h-4 mr-2" />
+            Create customer
+          </Button>
+        </AddCustomerModal>
       </div>
       <div className="bg-white border rounded-md">
         <Table>

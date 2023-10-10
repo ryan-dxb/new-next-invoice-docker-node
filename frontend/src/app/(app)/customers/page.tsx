@@ -8,8 +8,8 @@ const CustomersPage: NextPage<CustomersPageProps> = () => {
   return (
     <div className="flex flex-col h-full pb-4">
       <PageHeader
-        title="Admin Panel"
-        subTitle="Manage all users and their roles"
+        title="Customers"
+        subTitle="View and maanage your customers details"
       />
 
       <div className="w-11/12 mx-auto overflow-x-auto overflow-y-scroll max-w-7xl scrollbar-none">
